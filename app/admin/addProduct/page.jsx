@@ -40,6 +40,16 @@ const page = () => {
 
         if(response.data.success){
           toast.success(response.data.msg);
+          setImage(false);
+          setData({
+            title: "",
+            description: "",
+            category:"Startup",
+            author: "James Author",
+            authorImg: "/author_img.png"
+          });
+
+
         } else{
           toast.error("Error");
         }

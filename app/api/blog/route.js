@@ -16,8 +16,9 @@ export async function GET(request){
     console.log("Before calling ConnectDB");
     await ConnectDB();
 
-    console.log("Blog GET hit");
-    return NextResponse.json({"msg":"API working"})
+    const blogs = await BlogModel.find({})
+    
+    return NextResponse.json(blogs);
     
 }
 

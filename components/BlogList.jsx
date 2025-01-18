@@ -1,10 +1,26 @@
+"use client"
 import { assets, blog_data } from '@/Assets/assets'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BlogItem from './BlogItem'
+import axios from 'axios';
+import { set } from 'mongoose';
 
 const BlogList = () => {
 
     const [menu,setMenu] = useState("All");
+
+    const [blogs, setBlogs] = useState([]);
+
+    const fetchBlogs = async () => {
+        const response = await axios.get("/api/blog");
+
+        setBlogs(response.data.blogs); // blogs is the name from the database fetched variable of find method
+        console.log(response.data.blogs);
+    }
+    
+    useEffect(() => {
+        fetchBlogs();
+    },[])
 
   return (
     <div>
