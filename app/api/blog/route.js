@@ -3,20 +3,35 @@ import { NextResponse } from "next/server";
 import {writeFile } from 'fs/promises'
 import { log } from "console";
 import BlogModel from "@/lib/models/BlogModel";
+import mongoose from "mongoose";
 
-const LoadDB = async () => {
-   await ConnectDB;
-}
+// const LoadDB = async () => {
+//     await ConnectDB();
+// }
 
-LoadDB();
+// LoadDB();
+
 
 export async function GET(request){
+    console.log("Before calling ConnectDB");
+    await ConnectDB();
+
     console.log("Blog GET hit");
     return NextResponse.json({"msg":"API working"})
     
 }
 
 export async function POST(request){
+
+
+
+    // Ensure MongoDB is connected
+    if (!mongoose.connection.readyState) {
+        console.log("Connecting to MongoDB...");
+        await ConnectDB();
+        console.log("MongoDB connection state:", mongoose.connection.readyState); // Should log 1 if connected
+    }
+
 
     const formData = await request.formData();
     const timestamp = Date.now();
@@ -33,7 +48,7 @@ export async function POST(request){
         description: `${formData.get('description')}`,
         category: `${formData.get('category')}`,
         image: `${imgUrl}`, 
-        author: `${formData.author}`,
+        author: `${formData.get('author')}`,
         authorImg: `${formData.get('authorImg')}`,
 
     }
@@ -46,5 +61,6 @@ export async function POST(request){
     return NextResponse.json({success : true,msg:"Blog saved"});
 
 }
+
 
 
