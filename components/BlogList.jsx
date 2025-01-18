@@ -1,4 +1,3 @@
-"use client"
 import { assets, blog_data } from '@/Assets/assets'
 import React, { useEffect, useState } from 'react'
 import BlogItem from './BlogItem'
@@ -14,13 +13,17 @@ const BlogList = () => {
     const fetchBlogs = async () => {
         const response = await axios.get("/api/blog");
 
-        setBlogs(response.data.blogs); // blogs is the name from the database fetched variable of find method
-        console.log(response.data.blogs);
+        setBlogs(response.data); // blogs is the name from the database fetched variable of find method
+        console.log(blogs);
     }
-    
+
     useEffect(() => {
         fetchBlogs();
     },[])
+
+    // useEffect(() => {
+    //     console.log("Blogs updated:", blogs); // Log when blogs state changes
+    // }, [blogs]);
 
   return (
     <div>
@@ -32,8 +35,8 @@ const BlogList = () => {
             <button onClick={() => {setMenu("Lifestyle")}} className={menu==="Lifestyle" ? 'bg-black text-white py-1 px-4 rounded-sm' : ""}>Lifestyle</button>
         </div>
         <div className='flex flex-wrap justify-around gap-1 gap-y-10 mb-16 xl:mx-24'>
-            {blog_data.filter((item) => menu==="All"?true: item.category==menu).map((item,index) => (
-                <BlogItem key={item.id} title={item.title} description={item.description} category={item.category} image={item.image} id={item.id}/>
+            {blogs.filter((item) => menu==="All"?true: item.category==menu).map((item,index) => (
+                <BlogItem key={index} title={item.title} description={item.description} category={item.category} image={item.image} id={item._id}/>
             ))}
         </div>
         

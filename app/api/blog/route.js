@@ -13,12 +13,21 @@ import mongoose from "mongoose";
 
 
 export async function GET(request){
-    console.log("Before calling ConnectDB");
+    // console.log("Before calling ConnectDB");
     await ConnectDB();
 
-    const blogs = await BlogModel.find({})
-    
-    return NextResponse.json(blogs);
+    const blogId = request.nextUrl.searchParams.get("id");
+
+    if(blogId){
+        const blog = await BlogModel.findById(blogId);
+        return NextResponse.json(blog);
+    }
+    else{
+        const blogs = await BlogModel.find({})
+        
+        return NextResponse.json(blogs);
+
+    } 
     
 }
 
@@ -28,9 +37,9 @@ export async function POST(request){
 
     // Ensure MongoDB is connected
     if (!mongoose.connection.readyState) {
-        console.log("Connecting to MongoDB...");
+        // console.log("Connecting to MongoDB...");
         await ConnectDB();
-        console.log("MongoDB connection state:", mongoose.connection.readyState); // Should log 1 if connected
+        // console.log("MongoDB connection state:", mongoose.connection.readyState); // Should log 1 if connected
     }
 
 
@@ -57,7 +66,7 @@ export async function POST(request){
     
     await BlogModel.create(blogData);
     
-    console.log("Blog Saved");
+    // console.log("Blog Saved");
 
     return NextResponse.json({success : true,msg:"Blog saved"});
 

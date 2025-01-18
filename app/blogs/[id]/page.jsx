@@ -2,6 +2,7 @@
 import { assets, blog_data } from "@/Assets/assets";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -10,25 +11,40 @@ const Page = ({ params }) => {
   const [data, setData] = useState(null);
   const [id, setId] = useState(null);
 
-  // Fetch blog data based on the unwrapped params
-  const fetchBlogData = (id) => {
-    for (let i = 0; i < blog_data.length; i++) {
-      if (Number(id) === blog_data[i].id) {
-        setData(blog_data[i]);
-        console.log(blog_data[i]);
-        break;
+  const fetchBlogData = async (blogId) => {
+    const response = await axios.get('/api/blog',{
+      params:{
+        id:blogId
       }
-    }
-  };
+    })
+
+    setData(response.data);
+  }
+
+  // Fetch blog data based on the unwrapped params
+  // const fetchBlogData = (id) => {
+  //   for (let i = 0; i < blog_data.length; i++) {
+  //     if (Number(id) === blog_data[i].id) {
+  //       setData(blog_data[i]);
+  //       console.log(blog_data[i]);
+  //       break;
+  //     }
+  //   }
+  // };
+
+
 
   useEffect(() => {
-    // Unwrap `params` using React.use()
+    // Unwrap `params` using an async function
     (async () => {
-      const { id } = await params; // Unwrap the params promise
-      setId(id); // Store the unwrapped `id` for display or use
-      fetchBlogData(id); // Call the function with the unwrapped id
+      const unwrappedParams = await params; // Wait for the `params` promise to resolve
+      const { id } = unwrappedParams; // Extract the `id` from the unwrapped params
+      setId(id); // Store the `id` in state
+      fetchBlogData(id); // Fetch the blog data using the unwrapped `id`
     })();
   }, [params]);
+
+
 
   return ( data ? <>
 
@@ -42,7 +58,7 @@ const Page = ({ params }) => {
         </div>
         <div className="text-center my-24">
             <h1 className="text-2xl sm:text-5xl font-semibold max-w-[700px] mx-auto">{data.title}</h1>
-            <Image className="mx-auto mt-6 border border-white rounded-full" src={data.author_img} width={60} height={60} alt="" />
+            <Image className="mx-auto mt-6 border border-white rounded-full" src={data.authorImg} width={60} height={60} alt="" />
             <p className="mt-1 pb-2 text-lg max-w-[740px] mx-auto">{data.author}</p>
         </div>
     </div>
