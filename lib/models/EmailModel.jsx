@@ -11,6 +11,6 @@ const Schema = mongoose.Schema({
     }
 })
 
-const EmailModel = mongoose.models.email || mongoose.Model('email',Schema);
+const EmailModel = mongoose.models.email || mongoose.model('email',Schema);
 
 export default EmailModel;
