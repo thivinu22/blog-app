@@ -4,6 +4,8 @@ import {writeFile } from 'fs/promises'
 import { log } from "console";
 import BlogModel from "@/lib/models/BlogModel";
 import mongoose from "mongoose";
+import axios from "axios";
+const fs = require("fs")
 
 // const LoadDB = async () => {
 //     await ConnectDB();
@@ -70,6 +72,14 @@ export async function POST(request){
 
     return NextResponse.json({success : true,msg:"Blog saved"});
 
+}
+
+export async function DELETE(request) {
+    const id = request.nextUrl.searchParams.get('id');
+    const blog = await BlogModel.findById(id);
+    fs.unlink(`./public/${blog.image}`, () => {});
+    await BlogModel.findByIdAndDelete(id);
+    return NextResponse.json({msg:"Blog deleted"});
 }
 
 

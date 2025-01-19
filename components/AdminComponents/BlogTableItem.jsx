@@ -2,7 +2,7 @@ import { assets } from '@/Assets/assets'
 import Image from 'next/image'
 import React from 'react'
 
-const BlogTableItem = ({authorImg,title,author,date}) => {
+const BlogTableItem = ({authorImg,title,author,date,mongoId,deleteBlog}) => {
 
     // const blogDate = new Date(date);
     const dateString = "2025-01-18T08:57:55.045Z";
@@ -22,7 +22,7 @@ const BlogTableItem = ({authorImg,title,author,date}) => {
         <td className='px-6 py-4'>
             {dateObject.toDateString()}
         </td>
-        <td className='px-6 py-4 cursor-pointer'>
+        <td className='px-6 py-4 cursor-pointer' onClick={() =>  deleteBlog(mongoId)}>
             x
         </td>
     </tr>

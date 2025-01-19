@@ -2,6 +2,7 @@
 import BlogTableItem from '@/components/AdminComponents/BlogTableItem'
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { toast } from 'react-toastify';
 
 const page = () => {
 
@@ -18,6 +19,14 @@ const page = () => {
       fetchBlogs();
 
     }, []);
+
+    const deleteBlog = async (mongoId) => {
+        const response = await axios.delete('/api/blog',{
+          params:{id:mongoId}
+        })
+        toast.success(response.data.msg); 
+        fetchBlogs();
+    }
 
   return (
     <div className='flex-1 pt-5 px-5 sm:pt-12 sm:pl-16'>
@@ -36,7 +45,7 @@ const page = () => {
       <tbody>
         {blogs.map((item,index) => {
             
-            return <BlogTableItem key={index} mongoId={item._id} title={item.title} author={item.author} authorImg={item.authorImg} date={item.date} />
+            return <BlogTableItem key={index} mongoId={item._id} title={item.title} author={item.author} authorImg={item.authorImg} date={item.date}deleteBlog={deleteBlog}/>
           
         })
 
