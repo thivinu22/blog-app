@@ -2,6 +2,7 @@
 import SubsTableItem from '@/components/AdminComponents/SubsTableItem'
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { toast } from 'react-toastify';
 
 const page = () => {
 
@@ -18,6 +19,21 @@ const page = () => {
     fetchEmails();
   },[])
 
+
+  const onClickHandler = async (mongoId) => {
+      const response = await axios.delete('/api/email',{
+        params:{id:mongoId}
+      });
+
+      if(response.data.success){
+        toast.success(response.data.msg);
+        fetchEmails();
+      }
+      else{
+        toast.error("Error");
+      }
+  }
+
   return (
     <div className='flex-1 pt-5 px-5 sm:pt-12 sm:pl-16'>
       <h1>All Subscriptions </h1>
@@ -32,7 +48,7 @@ const page = () => {
           </thead>
           <tbody>
             {emails.map((item,index) => {
-                return <SubsTableItem key={index} mongoId={item._id} email={item.email} date={item.date}/>
+                return <SubsTableItem key={index} mongoId={item._id} email={item.email} date={item.date} onClickHandler={onClickHandler}/>
             })}
           </tbody>
         </table>

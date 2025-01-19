@@ -1,6 +1,6 @@
 import React from 'react'
 
-const SubsTableItem = ({email,moongoId,date}) => {
+const SubsTableItem = ({email,mongoId,date,onClickHandler}) => {
 
     const emailDate = new Date(date);
 
@@ -12,7 +12,7 @@ const SubsTableItem = ({email,moongoId,date}) => {
         <td className='hidden sm:block px-6 py-4'>
             {emailDate.toDateString()}
         </td>
-        <td className='px-6 py-4 cursor-pointer'>
+        <td onClick={() => onClickHandler(mongoId)} className='px-6 py-4 cursor-pointer'>
             x
         </td>
 
