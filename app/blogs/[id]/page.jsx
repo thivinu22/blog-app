@@ -64,10 +64,12 @@ const Page = ({ params }) => {
     </div>
         <div className="mx-5 max-w-[800px] md:mx-auto mt-[-100px] mb-10">
             <Image className="border-4 border-white" src={data.image} width={1280} height={720} alt="" />
-            <h1 className="my-8 font-semibold text-[26px]">Introduction:</h1>
-            <p>{data.description}</p>
 
-            <p className="my-5 text-[18px] font-semibold">Step 1: Self reflection and goal setting</p>
+            <div className="blog-content" dangerouslySetInnerHTML={{__html:data.description}}></div>
+
+            {/* <p>{data.description}</p> */}
+
+            {/* <p className="my-5 text-[18px] font-semibold">Step 1: Self reflection and goal setting</p>
             <p className="my-3">Before you can manage your lifestyle, you must have a clear understanding of what you want to achieve. Start by reflecting on your values, aspirations, and long-term goals.</p>
             <p className="my-3">Before you can manage your lifestyle, you must have a clear understanding of what you want to achieve. Start by reflecting on your values, aspirations, and long-term goals.</p>
             
@@ -81,7 +83,7 @@ const Page = ({ params }) => {
             
             <p className="my-5 text-[18px] font-semibold">Conclusion</p>
             <p className="my-3">Managing your lifestyle is a journey that requires commitment and self-awareness. By following this step-by-step guide, you can take control of your life and make meaningful changes that lead to a more balanced and fulfilling lifestyle. Remember that it's okay to seek support and guidance from professionals or mentors along the way.
-            Your well-being and happiness are worth the effort.</p>
+            Your well-being and happiness are worth the effort.</p> */}
 
             <div className="my-24">
                 <p className="text-black font-semibold my-4">Share this article on social media</p>
